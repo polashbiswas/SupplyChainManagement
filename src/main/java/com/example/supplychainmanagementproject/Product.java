@@ -26,40 +26,29 @@ public class Product {
     public double getPrice() { return price.get(); }
 
     public static ObservableList<Product> getAllProducts(){
-        DataBaseConnection dbcon = new DataBaseConnection();
-        ObservableList<Product> data = FXCollections.observableArrayList();
         String selectProducts = "SELECT * FROM product";
-        try{
-            ResultSet rs = dbcon.getQueryTable(selectProducts);
-            while (rs.next()){
-                data.add(new Product(rs.getInt("pid"), rs.getString("name"), rs.getDouble("price")));
-
-                System.out.println(rs.getInt("pid") + " " +
-                        rs.getString("name") + " " +
-                        rs.getDouble("price")
-                );
-            }
-            rs.close();
-
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
-        return data;
+        return getProductList(selectProducts);
     }
 
     public static ObservableList<Product> getProductsByName(String productName){
+
+        String selectProducts = String.format("SELECT * FROM product WHERE name like '%%%s%%'", productName.toLowerCase());
+        return getProductList(selectProducts);
+    }
+
+    private static ObservableList<Product> getProductList(String query){
         DataBaseConnection dbcon = new DataBaseConnection();
         ObservableList<Product> data = FXCollections.observableArrayList();
-        String selectProducts = String.format("SELECT * FROM product WHERE name like '%%%5%%'",productName.toLowerCase());
+
         try{
-            ResultSet rs = dbcon.getQueryTable(selectProducts);
+            ResultSet rs = dbcon.getQueryTable(query);
             while (rs.next()){
                 data.add(new Product(rs.getInt("pid"), rs.getString("name"), rs.getDouble("price")));
 
-                System.out.println(rs.getInt("pid") + " " +
-                        rs.getString("name") + " " +
-                        rs.getDouble("price")
-                );
+//                System.out.println(rs.getInt("pid") + " " +
+//                        rs.getString("name") + " " +
+//                        rs.getDouble("price")
+//                );
             }
             rs.close();
 
