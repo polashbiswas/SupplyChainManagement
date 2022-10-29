@@ -66,6 +66,26 @@ public class HelloApplication extends Application {
         return topPane;
     }
 
+    private Pane footerBar(){
+        Pane bottomPane = new Pane();
+        bottomPane.setPrefSize(width, upperLine-10);
+        bottomPane.setTranslateY(upperLine+height+10);
+
+        int searchEnd = 400;
+        Button buyNowButton = new Button("Buy Now");
+        buyNowButton.setTranslateX(searchEnd);
+
+        buyNowButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+            }
+        });
+
+        bottomPane.getChildren().addAll(buyNowButton);
+        return bottomPane;
+    }
+
     private GridPane loginPage(){
 
         Label emailLabel = new Label("E-mail");
@@ -139,7 +159,7 @@ public class HelloApplication extends Application {
     }
     private Pane createContent(){
         Pane root = new Pane();
-        root.setPrefSize(width, height+upperLine);
+        root.setPrefSize(width, height+2*upperLine+20);
 
         bodyPane = new Pane();
         bodyPane.setPrefSize(width, height);
@@ -147,7 +167,7 @@ public class HelloApplication extends Application {
 
         bodyPane.getChildren().add(productDetails.getAllProducts());
 
-        root.getChildren().addAll(headerBar(), bodyPane);
+        root.getChildren().addAll(headerBar(), bodyPane, footerBar());
         return  root;
     }
     @Override
