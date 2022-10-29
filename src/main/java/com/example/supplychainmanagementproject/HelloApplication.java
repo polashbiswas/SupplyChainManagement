@@ -6,10 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -80,6 +77,14 @@ public class HelloApplication extends Application {
 
         Button localLoginButton = new Button("Login");
 
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Login Message");
+        dialog.setContentText("Login failed !! Please enter correct email and password!");
+
+        ButtonType buttonType = new ButtonType("Okay", ButtonBar.ButtonData.OK_DONE);
+
+        dialog.getDialogPane().getButtonTypes().add(buttonType);
+
         localLoginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -93,6 +98,14 @@ public class HelloApplication extends Application {
                         customerLoggedIn = true;
                         customerEmail = email;
                         welcomeUser.setText("welcome " + email);
+                        bodyPane.getChildren().clear();
+                        bodyPane.getChildren().add(productDetails.getAllProducts());
+                    }
+                    else {
+                        welcomeUser.setText("Login failed");
+                        emailText.clear();
+                        passwordText.clear();
+                        dialog.showAndWait();
                     }
                 }
             }
