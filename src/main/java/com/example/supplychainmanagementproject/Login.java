@@ -26,7 +26,7 @@ public class Login {
         return "";
     }
 
-    public static boolean customerLogin(String email, String password)  {
+    public static boolean customerLogin(String email, String password){
         try{
             DataBaseConnection dbCon = new DataBaseConnection();
             String encryptedPassword = getEncryptedPassword(password);

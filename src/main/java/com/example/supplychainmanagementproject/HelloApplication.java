@@ -20,6 +20,10 @@ public class HelloApplication extends Application {
 
     Button loginButton;
     Pane bodyPane;
+    boolean customerLoggedIn = false;
+    String customerEmail = "";
+
+    Label welcomeUser;
 
     public static final int width = 700, height = 600, upperLine = 50;
 
@@ -55,7 +59,11 @@ public class HelloApplication extends Application {
             }
         });
 
-        topPane.getChildren().addAll(searchText, searchButton, loginButton);
+        welcomeUser = new Label("Hey! there");
+        welcomeUser.setTranslateX(searchEnd + 160);
+
+
+        topPane.getChildren().addAll(searchText, searchButton, loginButton, welcomeUser);
         topPane.setTranslateY(10);
 
         return topPane;
@@ -71,6 +79,24 @@ public class HelloApplication extends Application {
         passwordText.setPromptText("Please enter password");
 
         Button localLoginButton = new Button("Login");
+
+        localLoginButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String email = emailText.getText();
+                String password = passwordText.getText();
+                if(email.isBlank() || password.isBlank()){
+
+                }
+                else {
+                    if (Login.customerLogin(email, password)){
+                        customerLoggedIn = true;
+                        customerEmail = email;
+                        welcomeUser.setText("welcome " + email);
+                    }
+                }
+            }
+        });
         Button clearButton = new Button("Clear");
         clearButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
